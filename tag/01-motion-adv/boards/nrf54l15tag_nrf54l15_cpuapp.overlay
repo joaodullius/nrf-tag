@@ -1,0 +1,26 @@
+/*
+ * Enable the low-power accelerometer (ADXL367) with its INT1 line wired to
+ * the application core. INT1 is used for the data-ready interrupt (see
+ * main.c) - the sensor still drives us via interrupt at the ODR rate
+ * rather than the CPU busy-polling the I2C bus.
+ *
+ * int1-gpios pin confirmed from Nordic's own Fast Pair Locator Tag sample
+ * overlay for this exact board target (nrf/samples/bluetooth/fast_pair/
+ * locator_tag/configuration/boards/nrf54l15tag_nrf54l15_cpuapp.overlay).
+ */
+
+/ {
+	aliases {
+		motion-detector = &adxl367;
+	};
+};
+
+&i2c21 {
+	status = "okay";
+};
+
+&adxl367 {
+	status = "okay";
+	int1-gpios = <&gpio0 3 0>;
+	odr = <1>; /* 25 Hz */
+};
