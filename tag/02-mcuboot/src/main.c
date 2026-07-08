@@ -80,7 +80,7 @@ static const struct bt_le_adv_param *adv_param_stationary = BT_LE_ADV_PARAM(
  * above, so a scanning phone finds it quickly.
  */
 static const struct bt_le_adv_param *adv_param_pairing = BT_LE_ADV_PARAM(
-	BT_LE_ADV_OPT_CONNECTABLE | BT_LE_ADV_OPT_USE_IDENTITY,
+	BT_LE_ADV_OPT_CONN | BT_LE_ADV_OPT_USE_IDENTITY,
 	BT_GAP_ADV_FAST_INT_MIN_2, BT_GAP_ADV_FAST_INT_MAX_2, NULL);
 
 #define PAIRING_TIMEOUT_SECONDS 60
