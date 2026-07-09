@@ -1,0 +1,11 @@
+/*
+ * tag/03-memfault - custom Memfault metrics
+ *
+ * Shows up in the nRFCloud dashboard alongside the automatic BLE metrics
+ * (ncs_bt_connection_count, ncs_bt_connection_time_ms).
+ * Docs: https://docs.memfault.com/docs/embedded/metrics-api
+ */
+
+/* Counts every stationary<->moving transition - incremented in
+ * data_ready_handler() (see src/main.c). */
+MEMFAULT_METRICS_KEY_DEFINE(motion_transition_count, kMemfaultMetricType_Unsigned)
