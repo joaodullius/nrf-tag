@@ -1,0 +1,25 @@
+/*
+ * Everything board specific comes from the devicetree, through chosen nodes
+ * set by the board overlay:
+ *   app,accel          the accelerometer node on its SPI bus (cs-gpios on the
+ *                      bus = hardware CSN pin)
+ */
+#ifndef APP_DT_H_
+#define APP_DT_H_
+
+#include <zephyr/devicetree.h>
+#include <zephyr/dt-bindings/gpio/gpio.h>
+
+#define ACCEL_NODE      DT_CHOSEN(app_accel)
+#define BUS_NODE        DT_BUS(ACCEL_NODE)
+
+BUILD_ASSERT(DT_NODE_EXISTS(ACCEL_NODE), "chosen app,accel is missing in the board overlay");
+BUILD_ASSERT(DT_NODE_HAS_PROP(BUS_NODE, cs_gpios), "the SPI bus needs cs-gpios (hardware CSN pin)");
+
+/* Absolute nRF pin number (port * 32 + pin) of a gpio phandle-array entry */
+#define NRF_PIN_ABS(node, prop) \
+	(DT_PROP(DT_GPIO_CTLR(node, prop), port) * 32 + DT_GPIO_PIN(node, prop))
+
+#define CS_PIN_ABS NRF_PIN_ABS(BUS_NODE, cs_gpios)
+
+#endif /* APP_DT_H_ */

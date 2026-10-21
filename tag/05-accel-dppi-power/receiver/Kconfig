@@ -1,0 +1,131 @@
+# Copyright (c) 2026
+# SPDX-License-Identifier: Apache-2.0
+
+menu "Accelerometer power test: SPI burst triggered by a data-ready pin (GPIOTE)"
+
+config APP_DRDY_PIN
+	int "Data-ready input: pin number on port P0 (GPIOTE30, LP domain)"
+	default 1
+
+config APP_BURST_LEN
+	int "SPI burst length in bytes per sample"
+	default 11
+	range 2 64
+	help
+	  Generic accelerometer read: address byte, then status and the X/Y/Z data (11 bytes in total).
+	  Wire time at 8 MHz: 11 x 8 / 8 MHz = 11 us, plus the chip-select timing.
+
+choice APP_ACQ_MODE
+	prompt "How the samples are acquired"
+	default APP_ACQ_DPPI_DRAIN
+
+config APP_ACQ_CPU
+	bool "CPU in the loop: data-ready interrupt -> thread -> SPI transfer per sample"
+	help
+	  The conventional design. Every data-ready edge raises a GPIOTE interrupt, which
+	  wakes a thread that runs one SPI transfer, sleeps until it ends and queues the burst.
+
+config APP_ACQ_DPPI_PERSAMPLE
+	bool "DPPI start, one SPIM END interrupt per sample"
+	select APP_PER_SAMPLE_IRQ
+	help
+	  data-ready (GPIOTE IN) -> DPPI -> SPIM START with EasyDMA. The core wakes once
+	  per sample, only to copy the burst into the queue.
+
+config APP_ACQ_DPPI_DRAIN
+	bool "DPPI start, EasyDMA ring, drained every APP_DRAIN_PERIOD_US"
+	help
+	  data-ready (GPIOTE IN) -> DPPI -> SPIM START, bursts land in a ring on their own and
+	  a thread moves them to the queue in batches. The core wakes once per drain period.
+
+endchoice
+
+config APP_PER_SAMPLE_IRQ
+	bool
+
+config APP_DRAIN_PERIOD_US
+	int "Drain period in microseconds"
+	default 20000
+	range 100 1000000
+	help
+	  A thread wakes up every period, reads the EasyDMA pointer and pushes the slots that
+	  arrived into the message queue; once per lap it also arms the ring wrap.
+
+config APP_RING_SLOTS
+	int "Ring size in samples"
+	default 4096
+	range 8 4096
+	help
+	  The wrap is armed once the DMA is past half of the ring, so the ring must hold at
+	  least two drain periods of samples (ring >= 2 x rate x period).
+
+config APP_WRAP_AWAKE_BELOW_US
+	int "Wait awake for the wrap when the sample period is below this (us)"
+	default 64
+	range 0 10000
+	depends on !APP_PER_SAMPLE_IRQ && !APP_ACQ_CPU
+
+config APP_QUEUE_DEPTH
+	int "Message queue depth in samples"
+	default 7000
+	help
+	  Must hold one report period of samples (rate x APP_REPORT_PERIOD_MS).
+
+config APP_QUEUE_FRESH_ONLY
+	bool "Drop repeated samples before queueing"
+	default n
+
+config APP_SPI_FREQ_HZ
+	int "SPIM clock frequency in Hz"
+	default 8000000
+	help
+	  SPIM30 has a 16 MHz core and a prescaler of 2 or more, so 8 MHz is its maximum.
+
+config APP_SPI_CSN_DURATION
+	int "IFTIMING.CSNDUR: CSN-to-SCK delay and CSN inactive time, in 64 MHz clock cycles (15.625 ns)"
+	default 2
+	range 1 255
+
+config APP_SPI_RX_DELAY
+	int "IFTIMING.RXDELAY: MISO sample delay (-1 = driver default)"
+	default 1
+	range -1 7
+
+config APP_WRAP_ON_STARTED
+	bool "Arm the wrap on SPIM STARTED instead of DMA.RX.READY on nRF54L"
+	default n
+
+config APP_RRAM_STANDBY
+	bool "Keep the RRAM in standby instead of power-down during idle (nRF54L)"
+	depends on HAS_HW_NRF_RRAMC
+	default n
+
+config APP_WRAP_LATENCY_STATS
+	bool "Measure the delivering ISR latency (unused here)"
+	default n
+
+config APP_REQUEST_HFXO
+	bool "Request the HFXO"
+	default n
+	depends on CLOCK_CONTROL_NRF
+	help
+	  Off: the request is never released, so the crystal would burn current in every mode.
+
+config APP_CSNDUR_SWEEP
+	string "Comma-separated CSNDUR values to sweep at run time (empty = no sweep)"
+	default ""
+	help
+	  Each value is applied for APP_CSNDUR_WINDOW_MS and one summary line is logged:
+	  queued bursts, bursts that did not match the slave pattern, and the window length.
+
+config APP_CSNDUR_WINDOW_MS
+	int "Sweep window in milliseconds"
+	default 6000
+
+config APP_REPORT_PERIOD_MS
+	int "Report period in milliseconds"
+	default 100
+
+endmenu
+
+source "Kconfig.zephyr"

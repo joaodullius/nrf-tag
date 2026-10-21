@@ -1,0 +1,10 @@
+# SPDX-License-Identifier: Apache-2.0
+
+config PARTITION_MANAGER
+	default n
+
+config REMOTE_BOARD
+	string
+	default "nrf54l15tag/nrf54l15/cpuflpr" if BOARD_NRF54L15TAG_NRF54L15_CPUAPP
+
+source "share/sysbuild/Kconfig"

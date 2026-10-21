@@ -1,0 +1,54 @@
+/*
+ * nRF54L15 DK. The data-ready pulse comes from an external rig on P0.01; an SPI slave can be
+ * connected to the SPIM30 pins below (without one, MISO reads zero).
+ * SPIM30 (LP domain, port P0) clocks the burst: SCK P0.00, MOSI P0.02, MISO P0.03 (pulled
+ * down), CSN P0.04. The data-ready input P0.01 uses GPIOTE30, also in the LP domain, so
+ * nothing from the PERI domain is needed. P0.00..P0.03 are the VCOM1 (UART30) pins of this
+ * DK and P0.04 is button 3: the UART is turned off here.
+ */
+/ {
+	chosen {
+		app,accel = &dummy_sensor;
+	};
+};
+
+&pinctrl {
+	spi30_default: spi30_default {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 0, 0)>,
+				<NRF_PSEL(SPIM_MOSI, 0, 2)>,
+				<NRF_PSEL(SPIM_MISO, 0, 3)>,
+				<NRF_PSEL(SPIM_CSN, 0, 4)>;
+			bias-pull-down;
+		};
+	};
+
+	spi30_sleep: spi30_sleep {
+		group1 {
+			psels = <NRF_PSEL(SPIM_SCK, 0, 0)>,
+				<NRF_PSEL(SPIM_MOSI, 0, 2)>,
+				<NRF_PSEL(SPIM_MISO, 0, 3)>,
+				<NRF_PSEL(SPIM_CSN, 0, 4)>;
+			bias-pull-down;
+			low-power-enable;
+		};
+	};
+};
+
+&uart30 {
+	status = "disabled";
+};
+
+&spi30 {
+	status = "okay";
+	pinctrl-0 = <&spi30_default>;
+	pinctrl-1 = <&spi30_sleep>;
+	pinctrl-names = "default", "sleep";
+	cs-gpios = <&gpio0 4 GPIO_ACTIVE_LOW>;
+
+	dummy_sensor: dummy_sensor@0 {
+		compatible = "bosch,bmi270";
+		reg = <0>;
+		spi-max-frequency = <DT_FREQ_M(8)>;
+	};
+};

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="539" viewBox="0 0 1280 539">
+<title>Mapa do projeto Zephyr – exemplo 00 (beacon BLE, nRF54L15)</title>
+<defs><marker id="arr_768692_e" viewBox="0 0 6 6" refX="5.5" refY="3" markerWidth="6" markerHeight="6" orient="auto" markerUnits="strokeWidth"><path d="M 0 0 L 6 3 L 0 6 z" fill="#768692"/></marker><marker id="arr_00A9CE_e" viewBox="0 0 6 6" refX="5.5" refY="3" markerWidth="6" markerHeight="6" orient="auto" markerUnits="strokeWidth"><path d="M 0 0 L 6 3 L 0 6 z" fill="#00A9CE"/></marker></defs>
+<rect width="100%" height="100%" fill="#FFFFFF"/>
+<text x="79.4" y="23.1" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Light', Gotham, 'Segoe UI', Arial, sans-serif" font-size="32.0" fill="#333F48">Anatomia de um projeto Zephyr</tspan></text>
+<text x="79.4" y="56.6" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Light', Gotham, 'Segoe UI', Arial, sans-serif" font-size="19.6" fill="#0033A0">exemplo 00 · beacon BLE · nRF54L15</tspan></text>
+<text x="79.4" y="87.0" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Medium', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">ARQUIVOS</tspan></text>
+<text x="441.6" y="87.0" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Medium', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">BUILD</tspan></text>
+<text x="870.4" y="87.0" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Medium', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">NO CHIP</tspan></text>
+<line x1="412.2" y1="74.2" x2="412.2" y2="529.9" stroke="#D9E1E2" stroke-width="1.33"/>
+<line x1="844.8" y1="74.2" x2="844.8" y2="529.9" stroke="#D9E1E2" stroke-width="1.33"/>
+<rect x="79.4" y="112.6" width="300.8" height="76.8" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="92.2" y="139.5" text-anchor="start" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="19.6" fill="#333F48">CMakeLists.txt</tspan></text>
+<text x="92.2" y="163.8" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">o que compilar</tspan></text>
+<rect x="79.4" y="202.2" width="300.8" height="76.8" rx="7.7" fill="#00A9CE"/>
+<text x="92.2" y="229.1" text-anchor="start" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="19.6" fill="#FFFFFF">prj.conf</tspan></text>
+<text x="92.2" y="253.4" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#FFFFFF">quais recursos</tspan></text>
+<rect x="79.4" y="291.8" width="300.8" height="76.8" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="92.2" y="318.7" text-anchor="start" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="19.6" fill="#333F48">src/main.c</tspan></text>
+<text x="92.2" y="343.0" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">a lógica</tspan></text>
+<rect x="79.4" y="381.4" width="300.8" height="76.8" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="92.2" y="408.3" text-anchor="start" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="19.6" fill="#333F48">boards/&lt;placa&gt;.conf</tspan></text>
+<text x="92.2" y="432.6" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">ajuste por placa</tspan></text>
+<rect x="79.4" y="473.6" width="300.8" height="56.3" rx="7.7" fill="#D9E1E2"/>
+<text x="229.8" y="490.2" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#333F48">devicetree</tspan></text>
+<text x="229.8" y="513.3" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#333F48">só quando há hardware extra</tspan></text>
+<line x1="380.2" y1="240.6" x2="441.6" y2="240.6" stroke="#768692" stroke-width="1.78" marker-end="url(#arr_768692_e)"/>
+<rect x="441.6" y="208.6" width="153.6" height="64.0" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="518.4" y="240.6" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="19.6" fill="#333F48">Kconfig</tspan></text>
+<line x1="595.2" y1="240.6" x2="652.8" y2="240.6" stroke="#768692" stroke-width="1.78" marker-end="url(#arr_768692_e)"/>
+<rect x="652.8" y="208.6" width="153.6" height="64.0" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="729.6" y="240.6" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="19.6" fill="#333F48">.config</tspan></text>
+<line x1="729.6" y1="272.6" x2="729.6" y2="321.3" stroke="#00A9CE" stroke-width="2.22" marker-end="url(#arr_00A9CE_e)"/>
+<text x="716.8" y="296.3" text-anchor="end" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#00A9CE">CONFIG_BT=y</tspan></text>
+<rect x="633.6" y="321.3" width="192.0" height="30.7" rx="5.1" fill="#0077C8"/>
+<text x="729.6" y="336.6" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#FFFFFF">pilha BLE (host)</tspan></text>
+<rect x="633.6" y="355.8" width="192.0" height="30.7" rx="5.1" fill="#D9E1E2"/>
+<text x="729.6" y="371.2" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#333F48">HCI</tspan></text>
+<rect x="633.6" y="390.4" width="192.0" height="30.7" rx="5.1" fill="#0033A0"/>
+<text x="729.6" y="405.8" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#FFFFFF">controller</tspan></text>
+<rect x="633.6" y="425.0" width="192.0" height="30.7" rx="5.1" fill="#00A9CE"/>
+<text x="729.6" y="440.3" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#FFFFFF">rádio</tspan></text>
+<rect x="441.6" y="473.6" width="300.8" height="56.3" rx="7.7" fill="#D9E1E2"/>
+<text x="592.0" y="501.8" text-anchor="middle" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#333F48">só entra o que foi ligado</tspan></text>
+<rect x="870.4" y="112.6" width="326.4" height="51.2" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="1033.6" y="138.2" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#333F48">main()</tspan></text>
+<line x1="1033.6" y1="163.8" x2="1033.6" y2="186.9" stroke="#768692" stroke-width="1.78" marker-end="url(#arr_768692_e)"/>
+<rect x="870.4" y="186.9" width="326.4" height="51.2" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="1033.6" y="212.5" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#333F48">bt_enable(bt_ready)</tspan></text>
+<line x1="1033.6" y1="238.1" x2="1033.6" y2="261.1" stroke="#768692" stroke-width="1.78" marker-end="url(#arr_768692_e)"/>
+<rect x="870.4" y="261.1" width="326.4" height="51.2" rx="7.7" fill="#FFFFFF" stroke="#768692" stroke-width="1.33"/>
+<text x="1033.6" y="286.7" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#333F48">bt_ready()</tspan></text>
+<line x1="1033.6" y1="312.3" x2="1033.6" y2="335.4" stroke="#768692" stroke-width="1.78" marker-end="url(#arr_768692_e)"/>
+<rect x="870.4" y="335.4" width="326.4" height="70.4" rx="7.7" fill="#0033A0"/>
+<text x="1033.6" y="359.0" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#FFFFFF">bt_le_adv_start(</tspan></text>
+<text x="1033.6" y="382.1" text-anchor="middle" dominant-baseline="central"><tspan font-family="Consolas, 'Courier New', monospace" font-size="17.8" fill="#FFFFFF">param, ad[], sd[])</tspan></text>
+<line x1="1033.6" y1="405.8" x2="1033.6" y2="440.3" stroke="#768692" stroke-width="1.78" marker-end="url(#arr_768692_e)"/>
+<circle cx="998.4" cy="491.5" r="9.0" fill="#00A9CE"/>
+<path d="M 1016.5 473.4 A 25.6 25.6 0 0 1 1016.5 509.6" fill="none" stroke="#00A9CE" stroke-width="2.22" stroke-linecap="round"/>
+<path d="M 1028.3 461.7 A 42.2 42.2 0 0 1 1028.3 521.4" fill="none" stroke="#00A9CE" stroke-width="2.22" stroke-linecap="round"/>
+<path d="M 1040.0 449.9 A 58.9 58.9 0 0 1 1040.0 533.2" fill="none" stroke="#00A9CE" stroke-width="2.22" stroke-linecap="round"/>
+<text x="1072.6" y="491.5" text-anchor="start" dominant-baseline="central"><tspan font-family="'Gotham Book', Gotham, 'Segoe UI', Arial, sans-serif" font-size="17.8" fill="#768692">pacote no ar</tspan></text>
+</svg>

@@ -1,0 +1,106 @@
+# Copyright (c) 2026
+# SPDX-License-Identifier: Apache-2.0
+
+menu "Sensor data-ready -> GPIOTE -> DPPI -> SPIM accelerometer reader"
+
+config APP_SENSOR_BMI270
+	def_bool y
+	help
+	  BMI270 on the nRF54L15 TAG (chosen app,accel); its INT line (irq-gpios) is the data-ready trigger.
+
+config APP_SENSOR_ODR_HZ
+	int "Sensor output data rate in Hz"
+	default 400
+	help
+	  Rounded down to the nearest rate the sensor supports
+	  (BMI270: 25..1600 Hz). The data-ready pin
+	  fires once per sample, so this is also the SPI transaction rate.
+
+config APP_DRAIN_PERIOD_US
+	int "Drain period in microseconds"
+	default 10000
+	range 100 1000000
+	help
+	  A thread wakes up every period, reads the EasyDMA pointer and pushes
+	  the slots that arrived into the message queue; once per lap (every
+	  APP_RING_SLOTS/2 samples or more) it also arms the ring wrap. The
+	  actual period is rounded up to the kernel tick (plus one tick) and
+	  the drain time is added to it. Delivery latency: at most that real
+	  period when at most 4 samples arrive per drain (the drain waits one
+	  transaction time so the newest one is complete); above that the
+	  newest sample of each drain goes out on the next drain (real period
+	  plus one sample period). Interrupts per second = 1 / period (wake-up)
+	  + wraps.
+
+config APP_RING_SLOTS
+	int "Ring size in samples"
+	default 256
+	range 8 4096
+	help
+	  The wrap is armed once the DMA is past half of the ring, so the ring
+	  must hold at least two drain periods of samples (ring >= 2 x rate x
+	  period), plus slack for scheduling delay; 8 guard slots are added
+	  after it and an overflow into them is counted.
+
+config APP_PER_SAMPLE_IRQ
+	bool "Deliver each sample from the SPIM END interrupt"
+	default n
+	help
+	  One interrupt per transaction instead of the drain thread: a single
+	  buffer, and the END ISR copies the sample that just ended into the
+	  queue (latency = ISR entry + copy; ~1.2 us with the core awake, up to
+	  ~15.5 us from idle on the nRF54L15 M33, ~26 us on the nRF5340). Valid
+	  while the sample period exceeds the transaction time plus that entry
+	  plus ~2 us (measured clean down to 40 us on both SoCs); a
+	  transaction that starts during the copy is detected and the sample
+	  dropped as "torn", one that starts before the ISR entry is not (the
+	  data may then be mixed). No ring, no wrap; APP_DRAIN_PERIOD_US,
+	  APP_RING_SLOTS and APP_WRAP_AWAKE_BELOW_US are unused.
+
+config APP_WRAP_AWAKE_BELOW_US
+	int "Wait awake for the wrap when the sample period is below this (us)"
+	default 64
+	range 0 10000
+	depends on !APP_PER_SAMPLE_IRQ
+	help
+	  When the wrap is due and the recent samples were closer together than
+	  this, the drain thread stays awake until the wrap ISR has run (at most
+	  a quarter of the drain period or 8 sample periods) instead of going
+	  back to sleep. Waking the core from idle for that IRQ costs up to
+	  ~16.5 us on the nRF54L15 (RRAM) and ~24 us on the nRF5340, more than
+	  one sample period at high rates. 0 disables the wait.
+
+config APP_QUEUE_DEPTH
+	int "Message queue depth in samples"
+	default 256
+	help
+	  Must hold at least one drain's worth of samples plus the worst-case
+	  consumer delay.
+
+config APP_SPI_FREQ_HZ
+	int "SPIM clock frequency in Hz"
+	default 4000000
+
+config APP_SPI_CSN_DURATION
+	int "IFTIMING.CSNDUR: CSN-to-SCK delay and CSN inactive time, in SPIM core clock cycles"
+	default 2
+	range 1 255
+	help
+	  Reset value 2. nrfx raises it automatically only when it applies the
+	  nRF54L errata 8 workaround (PRESCALER > 2); at higher SPI clocks it
+	  may need a larger value so SCK is settled before the first edge.
+
+config APP_SPI_RX_DELAY
+	int "IFTIMING.RXDELAY: MISO sample delay (-1 = driver default)"
+	default -1
+	range -1 7
+	help
+	  Only on SPIM instances that have RXDELAY (nRF5340 SPIM4, nRF54L SPIMxx).
+
+config APP_REPORT_PERIOD_MS
+	int "Report period in milliseconds"
+	default 1000
+
+endmenu
+
+source "Kconfig.zephyr"

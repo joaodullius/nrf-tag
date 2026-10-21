@@ -1,0 +1,68 @@
+/*
+ * The ADXL367 accelerometer and its I2C bus now belong to the FLPR core
+ * (see remote/boards/nrf54l15tag_nrf54l15_cpuflpr.overlay) - disable both
+ * here so the app core doesn't also try to own them.
+ *
+ * cpuflpr_vpr enables the FLPR core itself: without this, the app core
+ * never launches it (see the design spec's "Boot do FLPR" section - the
+ * FLPR can't self-boot from reset on this SoC). This alone is necessary
+ * but not sufficient - CONFIG_NORDIC_VPR_LAUNCHER also requires the vpr
+ * node to carry an `execution-memory` property, which only the nordic-flpr
+ * snippet provides (along with the SRAM/RRAM carve-out this image's ipc0
+ * regions below assume). The snippet is force-applied in sysbuild.cmake.
+ */
+
+&i2c21 {
+	status = "disabled";
+};
+
+&adxl367 {
+	status = "disabled";
+};
+
+&cpuflpr_vpr {
+	status = "okay";
+};
+
+/*
+ * ipc0: icmsg channel to the FLPR core over shared SRAM + VEVIF doorbells.
+ * Addresses/channel numbers match Nordic's own cpuapp<->cpuflpr icmsg
+ * example for this SoC family (nrf/samples/event_manager_proxy, NCS
+ * v3.4.0) - tx/rx are swapped on the FLPR side, see the matching overlay
+ * in remote/boards/.
+ */
+/ {
+	reserved-memory {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		ranges;
+
+		sram_rx: memory@20018000 {
+			reg = <0x20018000 0x8000>;
+		};
+
+		sram_tx: memory@20020000 {
+			reg = <0x20020000 0x8000>;
+		};
+	};
+
+	ipc {
+		ipc0: ipc0 {
+			compatible = "zephyr,ipc-icmsg";
+			dcache-alignment = <32>;
+			tx-region = <&sram_tx>;
+			rx-region = <&sram_rx>;
+			mboxes = <&cpuapp_vevif_rx 20>, <&cpuapp_vevif_tx 21>;
+			mbox-names = "rx", "tx";
+			status = "okay";
+		};
+	};
+};
+
+&cpuapp_vevif_rx {
+	status = "okay";
+};
+
+&cpuapp_vevif_tx {
+	status = "okay";
+};

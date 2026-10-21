@@ -28,10 +28,13 @@
 
 #include <memfault/metrics/metrics.h>
 
-LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
+#include <ctype.h>
+#include <stdio.h>
+#include <string.h>
+#include <zephyr/sys/printk.h>
+#include <hw_id.h>
 
-#define DEVICE_NAME CONFIG_BT_DEVICE_NAME
-#define DEVICE_NAME_LEN (sizeof(DEVICE_NAME) - 1)
+LOG_MODULE_REGISTER(main, LOG_LEVEL_INF);
 
 /*
  * Custom Manufacturer Specific Data (AD type 0xFF):
@@ -58,9 +61,39 @@ static const struct bt_data ad[] = {
 	BT_DATA(BT_DATA_MANUFACTURER_DATA, mfg_data, sizeof(mfg_data)),
 };
 
+/*
+ * Device name unique per Tag: "Tag-" + last 4 hex digits of the hardware ID. It is the same ID
+ * (hw_id library) that Memfault reports as the device serial, so the phone's device list and the
+ * Memfault dashboard can be matched. The buffer is filled at boot, before advertising starts;
+ * CONFIG_BT_DEVICE_NAME is only the placeholder used until then.
+ */
+#define TAG_NAME_PREFIX "Tag-"
+#define TAG_NAME_SUFFIX_LEN 4
+
+static char dev_name[sizeof(TAG_NAME_PREFIX) + TAG_NAME_SUFFIX_LEN];
+
 static const struct bt_data sd[] = {
-	BT_DATA(BT_DATA_NAME_COMPLETE, DEVICE_NAME, DEVICE_NAME_LEN),
+	BT_DATA(BT_DATA_NAME_COMPLETE, dev_name, sizeof(dev_name) - 1),
 };
+
+static void device_name_init(void)
+{
+	char id[HW_ID_LEN] = "";
+	size_t n;
+
+	snprintk(dev_name, sizeof(dev_name), TAG_NAME_PREFIX "%s", "0000");
+	if (hw_id_get(id, sizeof(id)) == 0) {
+		n = strlen(id);
+		if (n >= TAG_NAME_SUFFIX_LEN) {
+			snprintk(dev_name, sizeof(dev_name), TAG_NAME_PREFIX "%s", &id[n - TAG_NAME_SUFFIX_LEN]);
+			for (char *c = dev_name + sizeof(TAG_NAME_PREFIX) - 1; *c; c++) {
+				*c = toupper((unsigned char)*c);
+			}
+		}
+	}
+	(void)bt_set_name(dev_name);
+	LOG_INF("Device name %s (hardware id %s)", dev_name, id);
+}
 
 /*
  * Advertising intervals modeled after Apple AirTag's documented behavior
@@ -518,6 +551,7 @@ int main(void)
 		return 0;
 	}
 	LOG_INF("Bluetooth initialized");
+	device_name_init();
 
 	err = button_init();
 	if (err) {

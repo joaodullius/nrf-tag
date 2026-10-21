@@ -43,7 +43,7 @@ static const struct bt_data sd[] = {
 
 /* Fast interval (~100-150 ms) */
 static const struct bt_le_adv_param *adv_param = BT_LE_ADV_PARAM(
-	BT_LE_ADV_OPT_USE_IDENTITY,
+	BT_LE_ADV_OPT_CONN | BT_LE_ADV_OPT_USE_IDENTITY,
 	BT_GAP_ADV_FAST_INT_MIN_2, BT_GAP_ADV_FAST_INT_MAX_2, NULL);
 
 /* Slow interval (~1000-1200 ms) */

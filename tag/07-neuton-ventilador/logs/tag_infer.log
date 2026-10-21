@@ -1,0 +1,65 @@
+[00:00:33.306,265] [0m<inf> ADXL367: ADXL367 passed self-test
+[0m
+*** Booting nRF Connect SDK v3.4.1-b20f8619ba9a ***
+*** Using Zephyr OS v4.4.2-33fa6a7aac6a ***
+*** Using Edge AI Add-on v2.3.0-1c24f3a94ac9 ***
+ASSERTION FAIL @ CMAKE_SOURCE_DIR/src/main.c:294
+[00:00:33.478,569] [1;31m<err> os: r0/a1:  0x00000004  r1/a2:  0x00000126  r2/a3:  0x00000005[0m
+[00:00:33.478,576] [1;31m<err> os: r3/a4:  0x00000004 r12/ip:  0x00000010 r14/lr:  0x0000119f[0m
+[00:00:33.478,581] [1;31m<err> os:  xpsr:  0x09100000[0m
+[00:00:33.478,589] [1;31m<err> os: s[ 0]:  0x20002a90  s[ 1]:  0x00011690  s[ 2]:  0x00000000  s[ 3]:  0x00000000[0m
+[00:00:33.478,597] [1;31m<err> os: s[ 4]:  0x00000001  s[ 5]:  0x00000000  s[ 6]:  0x00011688  s[ 7]:  0x0000ef4b[0m
+[00:00:33.478,613] [1;31m<err> os: s[ 8]:  0x00000000  s[ 9]:  0x00000000  s[10]:  0x000153d4  s[11]:  0x20005d6c[0m
+[00:00:33.478,621] [1;31m<err> os: s[12]:  0x00011688  s[13]:  0x0000ebf5  s[14]:  0x000153d4  s[15]:  0x20005d6c[0m
+[00:00:33.478,626] [1;31m<err> os: fpscr:  0x00000003[0m
+[00:00:33.478,631] [1;31m<err> os: Faulting instruction address (r15/pc): 0x0000ec0e[0m
+[00:00:33.478,650] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 4: Kernel panic on CPU 0[0m
+[00:00:33.478,664] [1;31m<err> os: Current thread: 0x20003b78 (unknown)[0m
+[00:00:35.298,028] [1;31m<err> fatal_error: Resetting system[0m
+[00:00:36.159,201] [0m<inf> ADXL367: ADXL367 passed self-test
+[0m
+*** Booting nRF Connect SDK v3.4.1-b20f8619ba9a ***
+*** Using Zephyr OS v4.4.2-33fa6a7aac6a ***
+*** Using Edge AI Add-on v2.3.0-1c24f3a94ac9 ***
+ASSERTION FAIL @ CMAKE_SOURCE_DIR/src/main.c:294
+[00:00:36.331,506] [1;31m<err> os: r0/a1:  0x00000004  r1/a2:  0x00000126  r2/a3:  0x00000005[0m
+[00:00:36.331,513] [1;31m<err> os: r3/a4:  0x00000004 r12/ip:  0x00000010 r14/lr:  0x0000119f[0m
+[00:00:36.331,518] [1;31m<err> os:  xpsr:  0x09100000[0m
+[00:00:36.331,526] [1;31m<err> os: s[ 0]:  0x20002a90  s[ 1]:  0x00011690  s[ 2]:  0x00000000  s[ 3]:  0x00000000[0m
+[00:00:36.331,534] [1;31m<err> os: s[ 4]:  0x00000001  s[ 5]:  0x00000000  s[ 6]:  0x00011688  s[ 7]:  0x0000ef4b[0m
+[00:00:36.331,551] [1;31m<err> os: s[ 8]:  0x00000000  s[ 9]:  0x00000000  s[10]:  0x000153d4  s[11]:  0x20005d6c[0m
+[00:00:36.331,558] [1;31m<err> os: s[12]:  0x00011688  s[13]:  0x0000ebf5  s[14]:  0x000153d4  s[15]:  0x20005d6c[0m
+[00:00:36.331,563] [1;31m<err> os: fpscr:  0x00000003[0m
+[00:00:36.331,568] [1;31m<err> os: Faulting instruction address (r15/pc): 0x0000ec0e[0m
+[00:00:36.331,587] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 4: Kernel panic on CPU 0[0m
+[00:00:36.331,601] [1;31m<err> os: Current thread: 0x20003b78 (unknown)[0m
+[00:00:38.150,935] [1;31m<err> fatal_error: Resetting system[0m
+[00:00:39.012,167] [0m<inf> ADXL367: ADXL367 passed self-test
+[0m
+*** Booting nRF Connect SDK v3.4.1-b20f8619ba9a ***
+*** Using Zephyr OS v4.4.2-33fa6a7aac6a ***
+*** Using Edge AI Add-on v2.3.0-1c24f3a94ac9 ***
+ASSERTION FAIL @ CMAKE_SOURCE_DIR/src/main.c:294
+[00:00:39.184,470] [1;31m<err> os: r0/a1:  0x00000004  r1/a2:  0x00000126  r2/a3:  0x00000005[0m
+[00:00:39.184,477] [1;31m<err> os: r3/a4:  0x00000004 r12/ip:  0x00000010 r14/lr:  0x0000119f[0m
+[00:00:39.184,482] [1;31m<err> os:  xpsr:  0x09100000[0m
+[00:00:39.184,490] [1;31m<err> os: s[ 0]:  0x20002a90  s[ 1]:  0x00011690  s[ 2]:  0x00000000  s[ 3]:  0x00000000[0m
+[00:00:39.184,498] [1;31m<err> os: s[ 4]:  0x00000001  s[ 5]:  0x00000000  s[ 6]:  0x00011688  s[ 7]:  0x0000ef4b[0m
+[00:00:39.184,514] [1;31m<err> os: s[ 8]:  0x00000000  s[ 9]:  0x00000000  s[10]:  0x000153d4  s[11]:  0x20005d6c[0m
+[00:00:39.184,522] [1;31m<err> os: s[12]:  0x00011688  s[13]:  0x0000ebf5  s[14]:  0x000153d4  s[15]:  0x20005d6c[0m
+[00:00:39.184,527] [1;31m<err> os: fpscr:  0x00000003[0m
+[00:00:39.184,532] [1;31m<err> os: Faulting instruction address (r15/pc): 0x0000ec0e[0m
+[00:00:39.184,551] [1;31m<err> os: >>> ZEPHYR FATAL ERROR 4: Kernel panic on CPU 0[0m
+[00:00:39.184,565] [1;31m<err> os: Current thread: 0x20003b78 ([00:00:00.759,085] [0m<inf> ADXL367: ADXL367 passed self-test
+[0m
+*** Booting nRF Connect SDK v3.4.1-b20f8619ba9a ***
+*** Using Zephyr OS v4.4.2-33fa6a7aac6a ***
+*** Using Edge AI Add-on v2.3.0-1c24f3a94ac9 ***
+[00:00:00.931,288] [0m<inf> main: 04_classify_led — IMU -> inferencia -> LED[0m
+[00:00:00.931,298] [0m<inf> main: Edge AI runtime 2.2.2[0m
+[00:00:00.931,316] [0m<inf> main: nRF Edge AI Lab Solution id: 95922[0m
+[00:00:00.931,323] [0m<inf> main: janela 128 · entradas 6 · classes 4 · 100 Hz[0m
+[00:00:02.211,153] [0m<inf> main: janela em 1273 ms (esperado 1280)[0m
+[00:00:02.212,248] [0m<inf> main: classe 0 — idle (99%)[0m
+[00:00:03.493,194] [0m<inf> main: janela em 1282 ms (esperado 1280)[0m
+[00:00:04.775,270] [0m<inf> main: janela em 1282 ms (esperado 1280)[0m
